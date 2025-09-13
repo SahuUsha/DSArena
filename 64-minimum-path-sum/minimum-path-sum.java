@@ -7,11 +7,13 @@ class Solution {
         int[][] dp = new int[n][m];
 
    
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(dp[i], -1);
-        }
+        // for (int i = 0; i < n; i++) {
+        //     Arrays.fill(dp[i], -1);
+        // }
 
-        return minDp(n - 1, m - 1, grid, dp);
+        // return minDp(n - 1, m - 1, grid, dp);
+
+        return tabulation(grid);
     }
 
     public int minDp(int i, int j, int[][] grid, int[][] dp) {
@@ -42,7 +44,7 @@ class Solution {
 
     public int tabulation(int grid[][]){
         int n = grid.length;
-        int m = grid.length;
+        int m = grid[0].length;
         int dp[][] = new int[n][m];
 
         for(int i =0 ; i<n ; i++){
@@ -52,17 +54,19 @@ class Solution {
 
                 else{
 
-                    int up =0;
-                    int left =0;
+                    int up =grid[i][j];
+                    int left =grid[i][j];
                     if(i>0) {
-                        up = grid[i][j] + dp[i-1][j];
+                        up += dp[i-1][j];
+                    }else{
+                        up = Integer.MAX_VALUE;
                     }
 
                     if(j>0){
-                        left = grid[i][j] + dp[i-1][j];
+                        left += dp[i][j-1];
+                    }else{
+                        left =  Integer.MAX_VALUE;
                     }
-
-
                     dp[i][j] = Math.min(up,left);
                 }
 
