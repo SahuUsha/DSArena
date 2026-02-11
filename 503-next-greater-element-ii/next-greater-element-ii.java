@@ -1,8 +1,6 @@
 class Solution {
     public int[] nextGreaterElements(int[] nums) {
 
-        // int []result = nums.length;
-        
         Stack<Integer> stack = new Stack<>();
         int last = nums[nums.length-1];
         for(int i = 0 ; i<nums.length ; i++){
@@ -22,8 +20,6 @@ class Solution {
             nums[nums.length-1] = -1;
            
         }
-
-
 
         for(int i = nums.length-2; i>=0; i--){
 
