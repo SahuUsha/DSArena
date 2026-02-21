@@ -1,5 +1,11 @@
 class Solution {
-    public int trap(int[] height) {
+       public int trap(int[] height) {
+        
+        return maxWater(height);
+        
+        //  return trap1(height);
+       }
+    public int trap1(int[] height) {
         int total = 0 ;
         int n = height.length;
         int []preffixmax =new int[height.length]; 
@@ -23,4 +29,38 @@ class Solution {
         return total;
 
     }
+
+     public int maxWater(int arr[]) {
+        
+        int n = arr.length;
+        
+       int leftmax = arr[0];
+       int rightmax = arr[n-1];
+       int l =0;
+       int r = n-1;
+       int total = 0;
+       
+       while(l<r){
+          if(arr[l]<arr[r]){
+              if(arr[l]>=leftmax){
+                  leftmax = arr[l];
+              }else{
+                  total += leftmax - arr[l];
+                  
+              }
+              l++;
+          }else{
+              if(arr[r]>=rightmax){
+                  rightmax = arr[r];
+              }else{
+                  total += rightmax - arr[r];
+                  
+              }
+              r--;
+          }
+       }
+       
+       return total;
+    }
+
 }
