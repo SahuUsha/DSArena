@@ -3,11 +3,13 @@ class Solution {
         
     //    return uniquePathRecursion(m,n,0,0);
 
-       int [][]dp = new int[m][n];
-       for(int []dp1: dp){
-        Arrays.fill(dp1,-1);
-       }
-       return  memoization(m-1,n-1,dp);
+    //    int [][]dp = new int[m][n];
+    //    for(int []dp1: dp){
+    //     Arrays.fill(dp1,-1);
+    //    }
+    //    return  memoization(m-1,n-1,dp);
+
+    return tabulation(m,n);
     }
 
      public int uniquePathRecursion(int m,int n, int row, int column) {
@@ -39,5 +41,22 @@ class Solution {
         dp[i][j] = sp1+ sp2;
 
         return dp[i][j];
+    }
+    public int tabulation(int m ,int n){
+        int dp[][] = new int[m][n];
+
+        for(int i = 0 ; i<m ;i++){
+            for(int j = 0 ; j<n ;j++){
+                if(i==0 && j==0) dp[i][j] =  1;
+                else{
+                    int up = 0;
+                    int left = 0;
+                    if(i>0) up = dp[i-1][j];
+                    if(j>0) left = dp[i][j-1];
+                    dp[i][j] = up+left;
+                }
+            }
+        }
+      return  dp[m-1][n-1];
     }
 }
