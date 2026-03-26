@@ -7,13 +7,13 @@ class Solution {
         int[][] dp = new int[n][m];
 
    
-        // for (int i = 0; i < n; i++) {
-        //     Arrays.fill(dp[i], -1);
-        // }
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dp[i], -1);
+        }
 
-        // return minDp(n - 1, m - 1, grid, dp);
+        return minDp(n - 1, m - 1, grid, dp);
 
-        return tabulation(grid);
+        // return tabulation(grid);
     }
 
     public int minDp(int m, int n, int[][] grid, int[][] dp) {
