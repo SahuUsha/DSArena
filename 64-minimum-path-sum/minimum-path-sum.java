@@ -16,30 +16,30 @@ class Solution {
         return tabulation(grid);
     }
 
-    public int minDp(int i, int j, int[][] grid, int[][] dp) {
-   
-        if (i == 0 && j == 0) {
-            return grid[i][j];
-        }
-        if (i < 0 || j < 0) return Integer.MAX_VALUE;
+    public int minDp(int m, int n, int[][] grid, int[][] dp) {
 
+    if (m == 0 && n == 0) {
+        return grid[0][0];
+    }
+
+    if (m < 0 || n < 0) {
+        return Integer.MAX_VALUE;
+    }
     
-        if (dp[i][j] != -1) {
-            return dp[i][j];
-        }
+    if(dp[m][n]!=-1){
+        return dp[m][n];
+    }
 
-        int up = Integer.MAX_VALUE;
-        int left = Integer.MAX_VALUE;
+    int up = minDp( m - 1, n,grid,dp);
+    int left = minDp(m, n - 1,grid, dp);
 
-       
-        if (i > 0) {
-            up = grid[i][j] + minDp(i - 1, j, grid, dp);
-        }
-        if (j > 0) {
-            left = grid[i][j] + minDp(i, j - 1, grid, dp);
-        }
+    int min = Math.min(up, left);
 
-        return dp[i][j] = Math.min(up, left);
+    if (min == Integer.MAX_VALUE) return min;
+    dp[m][n] = grid[m][n]+min;
+
+    return dp[m][n];
+
     }
 
     public int tabulation(int grid[][]){
