@@ -7,13 +7,13 @@ class Solution {
         int[][] dp = new int[n][m];
 
    
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(dp[i], -1);
-        }
+        // for (int i = 0; i < n; i++) {
+        //     Arrays.fill(dp[i], -1);
+        // }
 
-        return minDp(n - 1, m - 1, grid, dp);
+        // return minDp(n - 1, m - 1, grid, dp);
 
-        // return tabulation(grid);
+        return tabulation(grid);
     }
 
     public int minDp(int m, int n, int[][] grid, int[][] dp) {
@@ -43,36 +43,27 @@ class Solution {
     }
 
     public int tabulation(int grid[][]){
-        int n = grid.length;
-        int m = grid[0].length;
-        int dp[][] = new int[n][m];
-
-        for(int i =0 ; i<n ; i++){
-            for(int j =0 ; j<m ;j++){
-
-                if(i==0 && j==0) dp[i][j] = grid[i][j];
-
-                else{
-
-                    int up =grid[i][j];
-                    int left =grid[i][j];
-                    if(i>0) {
-                        up += dp[i-1][j];
-                    }else{
-                        up = Integer.MAX_VALUE;
-                    }
-
-                    if(j>0){
-                        left += dp[i][j-1];
-                    }else{
-                        left =  Integer.MAX_VALUE;
-                    }
-                    dp[i][j] = Math.min(up,left);
-                }
-
+         int[][] dp = new int[grid.length][grid[0].length];
+    
+    
+    for(int i=0;i<grid.length;i++){
+        for(int j=0;j<grid[0].length;j++){
+            
+            if(i==0 && j==0) dp[i][j]= grid[i][j];
+            else{
+            int up = grid[i][j];
+            if(i>0) up+= dp[i-1][j];
+            else up = Integer.MAX_VALUE;
+            
+            
+            int left = grid[i][j];
+            if(j>0) left+=dp[i][j-1];
+            else left = Integer.MAX_VALUE;
+            
+            dp[i][j] = Math.min(up,left);
             }
-        } 
-      return dp[n-1][m-1];
-
+        }
+    }
+    return dp[grid.length-1][grid[0].length-1];
     }
 }
