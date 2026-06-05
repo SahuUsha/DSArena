@@ -49,6 +49,7 @@ class Solution {
         if(node.left!=null){
         st.push(node.left);
         }
+
      }
      return list;
     }
