@@ -1,5 +1,9 @@
 class Solution {
     public int maxScore(int[] cardPoints, int k) {
+        return maxScore1(cardPoints,k);
+    }
+
+    public int maxScore1(int[] cardPoints, int k) {
         int n = cardPoints.length;
 
         int totalSum = 0;
@@ -31,4 +35,5 @@ class Solution {
 
         return totalSum - minSum;
     }
+    
 }
