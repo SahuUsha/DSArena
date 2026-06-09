@@ -21,13 +21,66 @@ class Tuple{
     }
 }
 
+class Pair{
+    Node node;
+    int ver;
+    
+    public Pair(Node node, int ver){
+        this.node = node;
+        this.ver = ver;
+    }
+}
+
 class Solution {
         TreeMap<Integer , TreeMap<Integer,Integer>> map = new TreeMap<>();
     public ArrayList<Integer> topView(Node root) {
-        // code here
-        // Queue<Tuple> q = new LinkedList<>();
         
-        // q.offer(new TreeNode(root,0,0));
+        ArrayList<Integer> list = new ArrayList<>();
+        BFS(root,list);
+        return list;
+    }
+    //  by BFS Method
+    
+    public void BFS(Node root , ArrayList<Integer> list){
+        TreeMap<Integer,Integer> map1 =new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(root,0));
+        
+        while(!q.isEmpty()){
+            
+            Pair pq = q.poll();
+            
+            if(!map1.containsKey(pq.ver)){
+                map1.put(pq.ver,pq.node.data);
+            }
+            
+            if(pq.node.left!=null){
+                q.offer(new Pair(pq.node.left, pq.ver-1));
+            }
+            
+            if(pq.node.right!=null){
+                q.offer(new Pair(pq.node.right,pq.ver+1));
+            }
+        }
+        
+        for(int p : map1.values()){
+            list.add(p);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // Inorder Method
+    
+    
+    public ArrayList<Integer> topView1(Node root) {
+ 
         InOrder(new Tuple(root,0,0));
         
         ArrayList<Integer> list = new ArrayList<>();
@@ -69,4 +122,7 @@ class Solution {
         
         InOrder(new Tuple(p.node.right,p.ver+1,p.level+1));
     }
+    
+    
+    
 }
