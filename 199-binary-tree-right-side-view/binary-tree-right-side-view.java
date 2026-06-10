@@ -26,8 +26,8 @@
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
          List<Integer> List = new ArrayList<>();
-        //   RightSideView(root , 1 , List);
-        rightView(root,List);
+          RightSideView(root , 1 , List);
+        // rightView(root,List);
           return List;
     }
     int maxdepth = 0;
