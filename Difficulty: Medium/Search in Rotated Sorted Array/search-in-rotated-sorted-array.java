@@ -1,6 +1,5 @@
 class Solution {
    
-   
     int search(int[] arr, int key) {
         // code here
         
@@ -16,6 +15,13 @@ class Solution {
                 return mid;
             }
             
+            
+            if (arr[low] == arr[mid] && arr[mid] == arr[high]) {
+                low++;
+                high--;
+                continue;
+            }
+
             
         if(arr[low]<=arr[mid]){
             
