@@ -16,13 +16,10 @@ class Solution {
     
     
        public ArrayList<Integer> preOrder(Node root) {
-        ArrayList<Integer> list = new ArrayList<>();
-         return preOrder1(root,list);
-         
+        // ArrayList<Integer> list = new ArrayList<>();
+        //  return preOrder1(root,list);
         
-        
-           
-           
+        return morris(root);
        }
     
     public ArrayList<Integer> preOrder1(Node root, ArrayList<Integer> list) {
@@ -35,6 +32,38 @@ class Solution {
         
         return list;
         
+    }
+    
+    // morris method 
+    public ArrayList<Integer> morris(Node root){
+        ArrayList<Integer> list = new ArrayList<>();
+        Node curr = root;
+        
+        while(curr!=null){
+            
+            if(curr.left==null){
+                list.add(curr.data);
+                curr = curr.right;
+            }else{
+                Node prev = curr.left;
+                
+                while(prev.right!=null && prev.right!=curr){
+                    prev = prev.right;
+                }
+                if(prev.right==null){
+                    prev.right=curr;
+                    list.add(curr.data);
+                    curr = curr.left;
+                }else{
+                    prev.right=null;
+                    curr = curr.right;
+                }
+                
+                
+            }
+        }
+        
+        return list;
     }
     
 }
