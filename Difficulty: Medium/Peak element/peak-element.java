@@ -1,34 +1,27 @@
 class Solution {
-    public int peakElement(int[] nums) {
+    public int peakElement(int[] arr) {
         // code here
+        int  min = Integer.MIN_VALUE;
         
-        int n = nums.length;
-        int low = 1;
-        int high = n-2;
-
-        if(n==1) return 0;
-
-        if(nums[0]>nums[1]) return 0;
-
-        if(nums[n-1]>nums[n-2]) return n-1;
-
-        while(low<=high){
-            int mid = (low+high)/2;
- 
-            if(nums[mid]>nums[mid-1] && nums[mid]>nums[mid+1]){
-                return mid;
+        for(int i = 0 ;i<arr.length ; i++){
+            if(i==0){
+                if( i+1<arr.length && min<arr[i] && arr[i]>arr[i+1]){
+                    return i;
+                }
             }
-            else if((nums[mid]>nums[mid-1])){
-                low = mid+1;
+            
+           else if(i==arr.length-1){
+                if(min<arr[i]&& arr[i]>arr[i-1]){
+                    return i;
+                }
             }
-            else if((nums[mid]>nums[mid+1])){
-                high = mid-1;
-            }else{
-                // if mid == reciprocal to peek mean => down point between two slope
-                // take update any value
-                high = mid-1;
+            
+           else if(arr[i-1]<arr[i] && arr[i]>arr[i+1]){
+                return i;
             }
-        } 
-        return -1;
+            
+            
+        }
+        return 0;
     }
 }
