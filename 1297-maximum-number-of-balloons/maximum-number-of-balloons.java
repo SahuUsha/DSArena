@@ -2,7 +2,11 @@ class Solution {
     public int maxNumberOfBalloons(String text) {
         HashMap<Character,Integer> map = new HashMap<>();
         for(int i = 0; i<text.length();i++){
+            char ch = text.charAt(i);
+            if(ch=='b' || ch=='a' || ch=='l' || ch=='o' || ch=='n'){
             map.put(text.charAt(i),map.getOrDefault(text.charAt(i),0)+1);
+            }
+
         }
          
         
