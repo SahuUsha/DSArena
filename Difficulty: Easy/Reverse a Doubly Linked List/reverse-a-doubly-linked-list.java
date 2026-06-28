@@ -1,4 +1,4 @@
-/*
+/* Structure of doubly linked list node
 class Node {
     int data;
     Node next;
@@ -13,28 +13,23 @@ class Node {
 */
 class Solution {
     public Node reverse(Node head) {
-        
-        if(head==null || head.next==null){
-            return head;
-        }
         // code here
+        Node headnode = head;
         
-        Node temp = head;
-        Node last = null;
-        while(temp!=null){
-            last = temp.prev;
-            temp.prev = temp.next;
-            temp.next = last;
-            
-            temp = temp.prev;
-        }
         
-        return last.prev;
         
-       
+      while(headnode.next!=null){
+        Node temp = headnode.next;
+        headnode.next = headnode.prev;
+        headnode.prev = temp;
+        
+        headnode = temp;
+      }
+      headnode.next = headnode.prev;
+      headnode.prev = null;
+      
+      head = headnode;
+      return head;
         
     }
 }
-
-
-// method - Swap the link next and prev link
