@@ -12,13 +12,23 @@ class Node {
 class Solution {
     int getMiddle(Node head) {
         // code here
-        Node slow = head;
-        Node fast = head;
-        while(fast!=null && fast.next!=null){
-           fast = fast.next.next;
-            slow = slow.next;
+        if(head==null) return 0;
+        
+        Node first = head;
+        Node second = head;
+        
+        while( second.next!=null && second.next.next!=null ){
+            first = first.next;
+             second = second.next.next;
         }
         
-        return slow.data;
+        if(second.next==null){
+            
+        return first.data;
+        
+        }else{
+            return first.next.data;
+        }
+        
     }
 }
