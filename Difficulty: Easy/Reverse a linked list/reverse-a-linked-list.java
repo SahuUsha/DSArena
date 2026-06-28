@@ -15,16 +15,14 @@ class Solution {
         // code here
         Node temp = head;
         Node prev = null;
-        
         while(temp!=null){
-            Node front = temp.next;
+            Node next = temp.next;
             temp.next = prev;
-            prev = temp;
-            temp = front;
+            prev =temp;
+            temp = next;
         }
         
         head = prev;
-        
-        return head;
+        return prev;
     }
 }
