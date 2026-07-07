@@ -1,119 +1,78 @@
 class Solution {
+    
     public int countPartitions(int[] arr, int diff) {
-        // // code here
-        int totalSum  = 0;
-        for(int i  =0 ; i<arr.length ; i++){
+        // code here
+        int totalSum = 0;
+        for(int i =0 ;i<arr.length;i++){
             totalSum += arr[i];
         }
         
+        // return Partition(arr,diff,totalSum,0,0);
         
-        // return CountPatter(arr,diff,0,0,totalSum);
-        
-        // int [][]dp = new int[arr.length][totalSum];
-        
-        // for(int []pd : dp){
-        //     Arrays.fill(pd,-1);
+        // int dp[][] = new int[arr.length][totalSum];
+        // for(int []d : dp){
+        //     Arrays.fill(d,-1);
         // }
+        // return memoization(arr,diff,totalSum,dp,0,0);
         
-        // return CountPatterMemo(arr,diff,0,0,totalSum,dp);
-        
-        return countPatterTabul(arr,diff,totalSum);
-        
+        return tabulation(arr,diff,totalSum);
     }
     
-    public int CountPatter(int []arr , int diff ,int idx, int sum, int totalSum){
+    public int Partition(int []arr , int diff, int totalSum, int idx, int s1){
+        
+        if (idx == arr.length) {
+       return (s1 - (totalSum - s1) == diff) ? 1 : 0;
+        }
+        
+        int NotTake = Partition(arr,diff,totalSum,idx+1 ,s1);
+        
+        int take = Partition(arr,diff,totalSum,idx+1,s1+arr[idx]);
+        
+        return NotTake+take;
+    }
+    
+    public int memoization(int []arr , int diff, int totalSum, int dp[][],int idx, int s1 ){
+        
         
         if(idx==arr.length){
-            
-        if((totalSum-sum)-sum==diff){
-            return 1;
+            return (s1 - (totalSum - s1) == diff) ? 1 : 0;
         }
         
-        return 0;
+        if(dp[idx][s1]!=-1){
+            return dp[idx][s1];
         }
         
-        
-        int notTake = CountPatter(arr , diff, idx+1, sum, totalSum);
-        
-        int take = CountPatter(arr, diff, idx+1,sum+arr[idx], totalSum);
-        
-        
-        
-        return notTake + take;
+       int NotTake = Partition(arr,diff,totalSum,idx+1 ,s1);
+       
+       int take = Partition(arr,diff,totalSum,idx+1,s1+arr[idx]);
+       
+       dp[idx][s1] = NotTake+take;
+       return dp[idx][s1];
     }
     
-    
-    public int CountPatterMemo(int []arr, int diff, int idx,int sum , int totalSum,int dp[][])
-    {
-        if(idx==arr.length){
-            
-        if((totalSum-sum)-sum==diff){
-            return 1;
-        }
+    public int tabulation(int []arr, int diff,int totalSum){
+        int [][]dp = new int[arr.length+1][totalSum+1];
         
-        return 0;
-        }
+        int n = arr.length;
         
-        if(dp[idx][sum]!=-1){
-            return dp[idx][sum];
-        }
-        
-        int notTake = CountPatter(arr , diff, idx+1, sum, totalSum);
-        
-        int take = CountPatter(arr, diff, idx+1,sum+arr[idx], totalSum);
-        
-        
-        return notTake + take;
-        
-    }
-    
-    public int countPatterTabul(int[] arr, int diff, int totalSum) {
-
-    // Invalid cases
-    if ((totalSum - diff) < 0 || (totalSum - diff) % 2 != 0) {
-        return 0;
-    }
-
-    int s2 = (totalSum - diff) / 2;
-
-    int n = arr.length;
-
-    int[][] dp = new int[n][s2 + 1];
-
-    // Base case
-    // Sum 0 can always be formed
-    for (int i = 0; i < n; i++) {
-        dp[i][0] = 1;
-    }
-
-    // First element
-    if(arr[0]==0){
-        dp[0][0] = 2;
-    }else{
-        dp[0][0] =1;
-    }
-    
-    if (arr[0] != 0 && arr[0] <= s2) {
-        dp[0][arr[0]] = 1;
-    }
-
-    for (int i = 1; i < n; i++) {
-
-        for (int sum = 0; sum <= s2; sum++) {
-
-            int notTake = dp[i - 1][sum];
-
-            int take = 0;
-
-            // Correct condition
-            if (arr[i] <= sum) {
-                take = dp[i - 1][sum - arr[i]];
+        for(int s1 =0 ; s1<=totalSum; s1++){
+            if(s1 - (totalSum - s1) == diff){
+            dp[n][s1] = 1;
             }
-
-            dp[i][sum] = take + notTake;
         }
+        
+        for(int i = arr.length-1 ;i>=0;i--){
+            for(int s1 = totalSum ; s1>=0 ;s1--){
+                int take = 0;
+                
+                if(s1+arr[i]<=totalSum){
+                 take = dp[i+1][s1+arr[i]];
+                }
+                
+                dp[i][s1] = dp[i+1][s1]+take;
+            }
+        }
+        
+        return dp[0][0];
     }
-    return dp[n - 1][s2];
-}
-    
 }
