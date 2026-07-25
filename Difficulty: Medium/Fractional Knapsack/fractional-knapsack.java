@@ -1,43 +1,42 @@
 class Solution {
-      
+    
     class Pair{
-        int idx;
-        double value;
+        int value;
+        int wgt;
         
-        Pair(int idx, double value){
-            this.idx = idx;
+        Pair(int value, int wgt){
             this.value = value;
+            this.wgt = wgt;
         }
     }
     
-    public double fractionalKnapsack(int[] val, int[] wt, int capacity) {
+   public double fractionalKnapsack(int[] val, int[] wt, int capacity) {
         // code here
-        List<Pair>  list = new ArrayList<>();
         
+        double values =0;
         
-        for(int i = 0 ; i<val.length ; i++){
-            double cal = ((double) val[i]) / ( wt[i]);
-            list.add(new Pair(i,cal));
+        ArrayList<Pair> list = new ArrayList<>();
+        
+        for(int i =0 ; i<val.length; i++){
+            list.add(new Pair(val[i],wt[i]));
         }
         
-        list.sort((a,b)->Double.compare(b.value,a.value));
-        double totalValue = 0;
+        Collections.sort(list,(a,b)->Double.compare(
+            (double)b.value/b.wgt, (double)a.value/a.wgt
+            ));
         
-        for(Pair p : list){
-            int idx = p.idx;
-            
-            if(wt[idx]<=capacity){
-                totalValue +=val[idx];
-                capacity -=wt[idx];
+        
+        for(int i = 0 ; i<list.size();i++){
+            Pair pr = list.get(i);
+            if(pr.wgt<=capacity){
+                capacity -=pr.wgt;
+                values +=pr.value;
             }else{
-                totalValue += p.value * capacity;
-                break;
+               values += ((double) (pr.value)/(pr.wgt))*capacity;
+               capacity -=capacity;
             }
-            
-            
         }
-        return totalValue;
         
-        
+        return values;
     }
 }
