@@ -1,50 +1,47 @@
 class Solution {
-    
-    int maxValue =Integer.MIN_VALUE;
     public int findMaxSum(int arr[]) {
         // code here
-        // maxSum(arr,0,0);
-        // return maxValue;
         
-        int []dp = new int[arr.length+1];
-        for(int i=0 ; i<=arr.length ;i++){
-            dp[i] =-1; 
-        }
-        int n = arr.length-1;
-        
-        return memoization(arr,dp,n);
-    }
-    // public void maxSum(int arr[] , int sum, int idx){
-    //     if(idx>=arr.length){
-    //         maxValue = Math.max(maxValue,sum);
-    //         return;
-    //     }
-        
-    //     sum = sum+arr[idx];
-    //     maxSum(arr,sum,idx+2);
-    //     sum = sum-arr[idx];
-    //     maxSum(arr, sum,idx+1);
-    // }
+    //   int dp[]
     
-    public int memoization(int arr[] , int []dp  , int idx){
-         if(idx<0){
-            return 0;
+    // return findMax(arr, 0,0);
+    return tabulation(arr);
+      
+      
+    }
+    
+    public int findMax(int arr[] , int idx , int sum){
+        
+        if(idx>=arr.length){
+            return sum;
         }
         
-         if(idx==0) return dp[idx] = arr[0];
-         
         
-        if(dp[idx]!=-1){
-            return dp[idx];
+        int notTake = findMax(arr,idx+1, sum);
+        
+        int take = findMax(arr,idx+2, sum+arr[idx]);
+        
+        return Math.max(notTake,take);
+    }
+    
+    public int tabulation(int arr[]){
+        
+        int dp[] = new int[arr.length];
+        
+        dp[arr.length-1] = arr[arr.length-1];
+        
+        for(int  i =arr.length-2 ; i>=0 ; i--){
+            int notTake = dp[i+1];
+            
+            int take= arr[i];
+            if(i+2<dp.length){
+                take += dp[i+2];
+            }
+            
+            dp[i] = Math.max(notTake,take);
         }
         
-
-        int left = memoization(arr,dp,idx-2) + arr[idx];
-
-        int right = memoization(arr,dp,idx-1);
+        return dp[0];
         
-         dp[idx] = Math.max(left,right);
-         
-        return dp[idx];
     }
 }
