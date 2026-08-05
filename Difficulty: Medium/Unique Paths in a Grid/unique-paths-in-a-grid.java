@@ -1,32 +1,69 @@
 class Solution {
     public int uniquePaths(int[][] grid) {
-        // code here
+        // code here\
         
-        int [][]dp = new int[grid.length][grid[0].length];
-        for(int []dp1: dp){
-        Arrays.fill(dp1,-1);
-        }
-        return  memoization(grid.length-1,grid[0].length-1,dp,grid);
+        // return unique(grid,grid.length-1,grid[0].length-1);
+        return tabulation(grid);
         
     }
-     public int memoization(int i , int j , int [][]dp, int[][]grid){
-        if (i<0 || j<0 ) {
-            return  0;
-        }
-        if((i >= 0 && j >= 0) && grid[i][j]==1) return 0;
+    public int unique(int [][]grid, int lt , int tt){
         
-        if (i == 0 && j == 0) {
+        if(lt<0 || tt<0){
+            return 0;
+        }
+        
+        if(grid[lt][tt]==1){
+            return 0 ;
+        }
+        if(lt==0 && tt==0){
             return 1;
         }
-        if(dp[i][j]!=-1){
-            return dp[i][j];
-        }
-
-        int sp1 =  memoization(i,j-1,dp,grid); // left
-        int sp2 =  memoization(i-1,j,dp,grid); // up
-
-        dp[i][j] = sp1+ sp2;
-
-        return dp[i][j];
+        
+        
+     int count  =  unique(grid,lt-1,tt) +   unique(grid,lt,tt-1) ;
+     
+     return count;
+        
     }
-};
+    
+    public int tabulation(int [][]grid){
+        
+        
+        int dp[][] = new int[grid.length][grid[0].length];
+        
+        dp[0][0] = 1;
+        
+        for(int i = 0; i <grid.length ;i++){
+            
+            for(int j = 0; j<grid[0].length; j++){
+                
+                
+                
+                if(grid[i][j]==1){
+                    dp[i][j]  = 0;
+                    continue;
+                }
+                
+                
+                
+                if(i==0 && j==0){
+                   continue;
+                }
+                int up = 0;
+                int left = 0;
+                
+                if(i>0){
+                    up = dp[i-1][j];
+                }
+                
+                if(j>0){
+                    left= dp[i][j-1];
+                }
+                
+                dp[i][j] = up + left;
+            }
+            
+        }
+        return dp[grid.length-1][grid[0].length-1];
+    }
+}
