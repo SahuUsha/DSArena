@@ -1,65 +1,58 @@
 class Solution {
     public int maximumPoints(int mat[][]) {
         // code here
-    //     int [][]dp = new int[mat.length][4];
-    //     for(int[]row : dp){
-    //         Arrays.fill(row,-1);
-    //     }
+        // int len = mat.length;
+        // return maximumact(mat,len-1,3);
         
-    //   return  memoization(mat, dp, mat.length-1,3);
-       
-       return tabulation(mat);
+        return tabulation(mat);
+        
     }
-    
-    // day == index
-    public int memoization(int mat[][], int dp[][] , int day , int last){
+    public int maximumact(int mat[][], int idx , int prev){
         
-        if(day==0){
-            int max = Integer.MIN_VALUE;
-         for(int i = 0 ; i<mat[0].length ;i++){
-             if(i!=last)
-              max = Math.max(max,mat[day][i]);
-         }
-         return max;
+        if(idx<0){
+            return 0;
         }
         
-        if(dp[day][last]!=-1){
-            return dp[day][last];
-        }
+    int max = 0;
         
-        int max = Integer.MIN_VALUE;
-        for(int i =0 ;i<mat[0].length;i++){
-            if(i!=last){
-            int point = mat[day][i] + memoization(mat,dp,day-1,i);
-                max = Math.max(max,point);
+        for(int i = 0 ; i<3 ;i++){
+        
+        
+            if(prev!=i){
+              int take = mat[idx][i] + maximumact(mat,idx-1,i);
+              max = Math.max(max,take);
             }
-            
         }
-        return dp[day][last] = max;
+        return max;
     }
     
     public int tabulation(int mat[][]){
+        
         int dp[][] = new int[mat.length][4];
-        
         dp[0][0] = Math.max(mat[0][1], mat[0][2]);
-        dp[0][1] = Math.max(mat[0][0], mat[0][2]); 
-        dp[0][2] = Math.max(mat[0][1] , mat[0][0]);
-        dp[0][3] = Math.max(mat[0][0] , Math.max(mat[0][2],mat[0][1]));
+          dp[0][1] = Math.max(mat[0][0], mat[0][2]);
+            dp[0][2] = Math.max(mat[0][1], mat[0][0]);
+              dp[0][3] = Math.max(mat[0][0],
+                     Math.max(mat[0][1], mat[0][2]));
+       
         
-        for(int day = 1 ; day<mat.length;day++){
-            for(int last = 0 ; last<4 ; last++){
-                dp[day][last] = 0;
-                for(int task = 0; task<3 ;task++){
-                    if(task!=last){
-                    int point = mat[day][task] + dp[day-1][task];
-                        dp[day][last] = Math.max(dp[day][last], point);
-                    }
+        
+        for(int i = 1; i<mat.length;i++){
+        
+            for(int prev = 0 ;prev<4 ; prev++){
+               dp[i][prev] = 0;
+                
+            for(int j = 0 ; j<3 ; j++){
+                
+                if(prev!=j){
+                    int point = mat[i][j] + dp[i-1][j];
+                    dp[i][prev] = Math.max(dp[i][prev], point);
                 }
+            }
+            
             }
         }
         
         return dp[mat.length-1][3];
     }
-    
-    
 }
