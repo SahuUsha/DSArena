@@ -1,43 +1,47 @@
 class Solution {
     public int minPathSum(ArrayList<ArrayList<Integer>> triangle) {
         // Code here
-        // return pathSum(triangle, 0 , 0 ,0);
-        // int n = triangle.size();
         
+        // return minPath(triangle, 0, 0);
         return tabulation(triangle);
-   
-        
-        
     }
-    public int pathSum(ArrayList<ArrayList<Integer>> triangle,int level,int idx1 , int sum){
-        if(level>=triangle.size() ){
-            return sum;
+    
+    public int minPath(ArrayList<ArrayList<Integer>> triangle , int row, int col){
+        
+        if(row==triangle.size()-1){
+            return triangle.get(row).get(col);
         }
         
+        if(col<0 || col>=triangle.get(row).size()){
+            return 0;
+        }
         
-      int notTake = pathSum(triangle,level+1,idx1,sum + triangle.get(level).get(idx1));
-      int take = pathSum(triangle, level+1, idx1+1, sum+triangle.get(level).get(idx1));
-        
-        return Math.min(notTake, take);
+       int path1 = minPath(triangle, row+1, col);
+       int path2 = minPath(triangle, row+1,col+1);
+       
+       int min = Math.min(path1,path2);
+       
+       
+       return triangle.get(row).get(col) + min;
         
     }
     
     public int tabulation(ArrayList<ArrayList<Integer>> triangle){
         
-           int n = triangle.size();
-            
-            int dp[] = new int[n];
-            
-            for(int  i = 0 ; i<triangle.get(n-1).size() ; i++){
-                dp[i] =  triangle.get(n-1).get(i);
+        int dp[][] = new int[triangle.size()][triangle.get(triangle.size()-1).size()];
+        
+        for(int i = 0 ; i<triangle.get(triangle.size()-1).size() ; i++){
+            dp[triangle.size()-1][i] = triangle.get(triangle.size()-1).get(i);
+        }
+        
+        for(int  i =triangle.size()-2   ; i >=0; i--){
+            int min  = Integer.MAX_VALUE;
+            for(int   j = 0  ; j<triangle.get(i).size();j++){
+                min = Math.min(dp[i+1][j], dp[i+1][j+1]);
+                dp[i][j] = triangle.get(i).get(j) + min;
             }
-            
-            for(int row = n-2 ;row >=0 ; row--){
-                for(int col = 0 ; col<=row ; col++){
-                    dp[col] = triangle.get(row).get(col) + Math.min(dp[col], dp[col+1]);
-                }
-            }
-            
-            return dp[0];
+        }
+        
+        return dp[0][0];
     }
 }
