@@ -1,35 +1,27 @@
 class Solution {
     public int longestSubstr(String s, int k) {
         // code here
-       HashMap<Character,Integer> map = new HashMap<>();
-       int maxFreq = 0;
-       int maxLen = 0;
-       
-       int l =0 , r=0;
-       int n = s.length();
-       
-       while(r<n){
-           
-           map.put(s.charAt(r), map.getOrDefault(s.charAt(r),0)+1);
-           maxFreq = Math.max(maxFreq,map.get(s.charAt(r)));
-           
-               while(((r-l+1)-maxFreq)>k){
-                   map.put(s.charAt(l),map.get(s.charAt(l))-1);
-                   
-                   if(map.get(s.charAt(l))==0){
-                       map.remove(s.charAt(l));
-                   }
-                   
-                   
-                   l++;
-                   
-               }
-               maxLen = Math.max(maxFreq,r-l+1);
-               r  = r+1;
-          
-       
-       
+        int len =0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        int max = Integer.MIN_VALUE;
+        int l =0;
+        
+        for(int i =0 ; i<s.length();i++){
+            
+             map.put(s.charAt(i), map.getOrDefault(s.charAt(i),0)+1);
+             
+             max = Math.max(max , map.get(s.charAt(i)));
+             
+             while((i-l+1)-max>k){
+                 
+                map.put(s.charAt(l), map.get(s.charAt(l))-1);
+                l++;
+             }
+             
+             len = Math.max(len,i-l+1);
+            
+        }
+        
+        return len;
     }
-   return maxLen;
-}
 }
