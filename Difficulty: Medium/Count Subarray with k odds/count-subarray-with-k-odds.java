@@ -1,38 +1,36 @@
 class Solution {
     public int countSubarrays(int[] arr, int k) {
+        return countSubarrays1(arr,k) - countSubarrays1(arr,k-1);
         
-        return countArray(arr,k) - countArray(arr,k-1);
+    }   
+    public int countSubarrays1(int[] arr, int k) {
         // code here
         
-    }
-    public int countArray(int []arr, int k){
-        int l = 0;
-        int r = 0;
-        int ans =0;
-        int countOdd=0;
+        int sum =0;
+        int l =0;
+        int cnt = 0;
         
-        while(r<arr.length){
+        for(int r =0 ;r<arr.length ;r++){
             
-            if((arr[r] & 1)==1){
-                countOdd++;
+            if(arr[r]%2!=0){
+                sum++;
             }
             
-            while(countOdd>k){
-            
+            while(sum>k){
                 
-                
-            if((arr[l] & 1)==1){
-                countOdd--;
+                if(arr[l]%2!=0){
+                    sum--;
+                    l++;
+                    break;
+                }else{
+                    l++;
+                }
             }
             
-            l++;
-            }
-            
-            ans += r-l+1;
-            r++;
+            cnt += r-l+1;
             
         }
         
-        return ans;
+        return cnt;
     }
 }
