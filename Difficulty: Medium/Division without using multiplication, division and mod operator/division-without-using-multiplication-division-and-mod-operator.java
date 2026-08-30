@@ -1,18 +1,30 @@
-// User function Template for Java
-
 class Solution {
-    public static long divide(long dividend, long divisor) {
+    public int divide(int n, int b1) {
         // code here
-        long ans = (dividend / divisor);
+        long ans =0;
         
-        if(ans>Integer.MAX_VALUE){
-            return Integer.MAX_VALUE;
+        
+        boolean sign =true;
+        if(n<0 && b1>=0) sign= false;
+        if(n>=0 && b1<0) sign = false;
+        long a = Math.abs(n);
+        long b = Math.abs(b1);
+        
+        while(a>=b){
+            
+           int  cnt =0;
+           while(a>=(b<<cnt+1)){
+               cnt++;
+           }
+           ans += 1L<<cnt;
+            a = a - (b<<(cnt));
         }
-        if(ans<Integer.MIN_VALUE){
-            return Integer.MIN_VALUE;
+        
+        if(!sign){
+            ans = -ans;
+            return (int) ans;
         }
         
-        return ans;
-        
+        return (int)ans;
     }
 }
