@@ -1,19 +1,24 @@
-// User function Template for Java
 class Solution {
     public String longestCommonPrefix(String arr[]) {
-        // code here
+        // code here\
+        
+        
         Arrays.sort(arr);
+        
         String first = arr[0];
         String last = arr[arr.length-1];
-        StringBuilder ans = new StringBuilder();
+        StringBuilder str = new StringBuilder();
         
-        for(int i =0 ; i<Math.min(first.length(),last.length()) ; i++){
+        for(int i = 0 ; i<first.length() ; i++){
+            
             if(first.charAt(i)!=last.charAt(i)){
-                return ans.toString();
+                return str.toString();
             }
             
-            ans.append(first.charAt(i));
+            str.append(first.charAt(i));
         }
-        return ans.toString();
+        
+        return str.toString();
+        
     }
 }
