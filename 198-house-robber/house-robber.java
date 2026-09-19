@@ -1,86 +1,54 @@
 class Solution {
     public int rob(int[] nums) {
+        // return robb( nums, 0, 0);
+        return robtab(nums);
         
-        int n = nums.length-1;
-
-        return sloveOptimization(nums) ;
-
     }
 
-    public int solveRec(int []nums , int n){
+   
+    public int robb(int []nums ,int sum, int idx){
 
-        if(n<0){
-            return 0;
-        }
-        if(n==0){
-            return nums[0];
+        if(idx>=nums.length){
+            return sum;
         }
 
-        int include = solveRec(nums , n-2) + nums[n];
-        int exclude = solveRec(nums , n-1) + 0;
-
-        return Math.max(include , exclude);
-    }
-
-    public int solveMemo(int []nums , int n , int []dp){
+        int notTake = robb(nums, sum , idx+1);
       
-      if(n<0){
-            return 0;
-        }
-        if(n==0){
+        int take = robb(nums, sum+nums[idx], idx+2);
+
+     return Math.max(notTake,take);
+    }
+
+    public int robtab(int []nums){
+
+        if(nums.length==1){
             return nums[0];
+        }else if(nums.length==2){
+            return Math.max(nums[0],nums[1]);
         }
 
-        if(dp[n]== -1){
-            return dp[n];
-        }
-
-         int include = solveRec(nums , n-2) + nums[n];
-        int exclude = solveRec(nums , n-1) + 0;
-
-        dp[n] = Math.max(include , exclude);
-
-        return dp[n];
-    }
-
-    public int sloveTab(int []nums ){
-      int n = nums.length;
-     if (n == 0) return 0;
-    if (n == 1) return nums[0];
-
-    int[] dp = new int[n];
-    dp[0] = nums[0];
-    dp[1] = Math.max(nums[0], nums[1]);
+        int dp[]= new int[nums.length];
+        dp[0] = nums[0];
+         dp[1] = Math.max(nums[0], nums[1]);
+        
+     
+        int last =0;
 
 
-      for(int i =2; i<n;i++){
-         int include = dp[i-2] + nums[i];
-         int exclude = dp[i-1] + 0;
 
-         dp[i] = Math.max(include , exclude);
-      }
+        for(int i = 2 ; i<nums.length ;i++){
+            
 
-      return dp[n-1];  
-    }
+                int notTake = dp[i-1];
+                int take =0;
+                if(i-2>=0){
+                    take = dp[i-2]+ nums[i];
+                }
 
+                dp[i] = Math.max(notTake, take);
+            }
 
-//   SC =O(1)
-     public int sloveOptimization(int []nums ){
-      int n = nums.length;
-
-      int prev2 = 0;
-      int prev1 = nums[0];
-    
-      for(int i =1; i<n;i++){
-         int include = prev2 + nums[i];
-         int exclude = prev1+ 0;
-
-         int ans = Math.max(include , exclude);
-         prev2 = prev1;
-         prev1 = ans;
-      }
-
-      return prev1;  
-    }
-    
+        
+     return dp[nums.length-1];
+}
 }
