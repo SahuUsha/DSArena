@@ -1,51 +1,41 @@
 class Solution {
     public int maxValue(int[] arr) {
         // code here
+        int takeZero =  thief2D(arr, 0,arr.length-2);
+        int notTakeZero = thief2D(arr, 1,arr.length-1);
         
-        if(arr.length==1) return arr[0];
-        
-        int t1 =  tabulation1(arr);
-        int t2 =  tabulation2(arr);
-        
-        return Math.max(t1,t2);
+        return Math.max(takeZero, notTakeZero);
+    
         
     }
     
-    public int tabulation1(int []arr){
+    public int thief2D(int []arr, int start , int end){
         
-        int dp[] = new int[arr.length];
+        if(arr.length==1){
+            return arr[0];
+        }else if(arr.length==2){
+            return Math.max(arr[0],arr[1]); 
+        }
         
+        int []dp = new int[arr.length];
         
-         dp[0] = arr[0];
-         dp[1] = Math.max(arr[0],arr[1]);
-         
-         
-         for(int i = 2 ;i<arr.length ; i++){
-             int left = arr[i];
-             if(i-2>=0) left += dp[i-2];
-             int right = dp[i-1];
-             
-             dp[i] = Math.max(left,right);
-         }
-         
-         return dp[arr.length-2];
+        dp[start] = arr[start];
+        
+        if(start+1<=end){
+            dp[start+1] = Math.max(arr[start+1],arr[start]);
+        }
+        
+        for(int i = start+2 ; i<=end;i++){
+            
+            int notTake = dp[i-1];
+            
+            int take = dp[i-2] + arr[i];
+            
+            
+            dp[i] = Math.max(take, notTake);
+        }
+        
+        return dp[end];
     }
-    public int tabulation2(int []arr){
-        
-        int dp[] = new int[arr.length];
-        
-        
-         dp[1] = arr[1];
-         
-         
-         for(int i = 2 ;i<arr.length ; i++){
-             int left = arr[i];
-             if(i-2>=0) left += dp[i-2];
-             int right = dp[i-1];
-             
-             dp[i] = Math.max(left,right);
-         }
-         
-         return dp[arr.length-1];
-    }
+    
 }
