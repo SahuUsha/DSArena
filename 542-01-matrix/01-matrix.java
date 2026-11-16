@@ -1,15 +1,16 @@
 class Solution {
-  class Pair{
+ 
+    class Pair{
     int row;
     int col;
     Pair(int row, int col){
         this.row = row;
         this.col = col;
+      }
     }
-  }
 
     public int[][] updateMatrix(int[][] mat) {
-        
+
         boolean visited[][] = new boolean[mat.length][mat[0].length];
         Queue<Pair> queue = new LinkedList<>();
         int result[][] = new int[mat.length][mat[0].length];
@@ -43,7 +44,6 @@ class Solution {
                     visited[newrow][newcol]=true;
                 }
                }
-
            }
 
 
